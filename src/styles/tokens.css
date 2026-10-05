@@ -1,0 +1,52 @@
+:root {
+  --navy: #0b3d91;
+  --navy-deep: #072a66;
+  --blue: #1565d8;
+  --sky: #2fa8ec;
+  --turq: #1cc6e0;
+  --ice: #e9f6ff;
+  --ice-2: #d5edff;
+  --white: #ffffff;
+  --ink: #0a2350;
+  --ink-soft: #3a5784;
+  --note: #fff1a8;
+  --note-ink: #4a3a00;
+  --gold: #f6b400;
+  --silver: #a9b8c9;
+  --bronze: #d07a3a;
+  --ok: #15803d;
+  --ok-bg: #dcfce7;
+  --bad: #c62828;
+  --bad-bg: #fde2e2;
+  --focus: #ff9f1c;
+
+  --bg: linear-gradient(180deg, #bfe6ff 0%, #e6f5ff 45%, #f6fbff 100%);
+  --card: var(--white);
+  --card-border: #9fd3f7;
+  --shadow: 0 4px 0 rgba(7, 42, 102, 0.12), 0 8px 20px rgba(7, 42, 102, 0.1);
+
+  --radius: 18px;
+  --radius-lg: 26px;
+  --pill: 999px;
+  --gap: clamp(10px, 2.5vw, 18px);
+  --maxw: 1180px;
+  --touch: 56px;
+
+  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-title: 'Baloo 2', 'Nunito', system-ui, sans-serif;
+
+  font-size: 18px;
+}
+
+:root[data-text='2'] { font-size: 20px; }
+:root[data-text='3'] { font-size: 23px; }
+
+/* Alto contraste: fundo liso, bordas fortes */
+:root[data-contrast='high'] {
+  --bg: #ffffff;
+  --card-border: #072a66;
+  --ink-soft: #0a2350;
+  --ice: #ffffff;
+  --ice-2: #e8f0ff;
+  --shadow: 0 0 0 2px #072a66;
+}
