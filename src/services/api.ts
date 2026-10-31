@@ -7,6 +7,16 @@ export interface RankEntry { name: string; score: number; rank: number }
 const FILA = 'h2o.pending';
 const ULTIMO_TOP = 'h2o.lastTop';
 
+// Pódio zerado para a feira: apaga uma única vez, em cada aparelho, o placar antigo
+// salvo offline e envios pendentes de jogadores anteriores (para não voltarem ao pódio).
+const RESET = 'h2o.reset';
+const RESET_VERSAO = 'feira-2026';
+if (load<{ v: string }>(RESET, { v: '' }).v !== RESET_VERSAO) {
+  remove(ULTIMO_TOP);
+  remove(FILA);
+  save(RESET, { v: RESET_VERSAO });
+}
+
 export async function getTop(limit = 10): Promise<{ list: RankEntry[]; offline: boolean }> {
   try {
     const res = await fetch(`/api/scores?limit=${limit}`, { cache: 'no-store' });

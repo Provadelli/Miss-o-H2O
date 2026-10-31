@@ -1,31 +1,83 @@
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--ocean-0);
+}
 
 body {
   margin: 0;
   min-height: 100dvh;
   font-family: var(--font-body);
   font-size: 1rem;
-  line-height: 1.45;
-  color: var(--ink);
+  line-height: 1.5;
+  color: var(--on-bg);
   background: var(--bg);
   background-attachment: fixed;
   -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  position: relative;
 }
+
+/* ---------- Cenário: bolhas subindo + ondas no rodapé (só decoração) ---------- */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+}
+body::before {
+  left: 0; right: 0; top: 0;
+  height: calc(100% + 640px);
+  /* Bolhas "ocas" (anel fino) em posições irregulares */
+  background-image:
+    radial-gradient(circle at 9% 22%, transparent 0 6px, rgba(255, 255, 255, 0.3) 7px 8px, transparent 9px),
+    radial-gradient(circle at 27% 78%, transparent 0 11px, rgba(255, 255, 255, 0.18) 12px 13px, transparent 14px),
+    radial-gradient(circle at 46% 41%, rgba(255, 255, 255, 0.22) 0 3px, transparent 4px),
+    radial-gradient(circle at 63% 9%, transparent 0 4px, rgba(255, 255, 255, 0.26) 5px 6px, transparent 7px),
+    radial-gradient(circle at 81% 63%, transparent 0 15px, rgba(255, 255, 255, 0.14) 16px 17px, transparent 18px),
+    radial-gradient(circle at 94% 31%, rgba(255, 255, 255, 0.2) 0 2px, transparent 3px),
+    radial-gradient(circle at 38% 93%, rgba(255, 255, 255, 0.18) 0 3px, transparent 4px);
+  background-size: 760px 640px;
+  animation: bubbles 26s linear infinite;
+  will-change: transform;
+}
+body::after {
+  left: 0; bottom: 0;
+  width: 200%; height: 130px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 130' preserveAspectRatio='none'%3E%3Cpath d='M0 60 C150 20 300 100 450 60 S750 20 900 60 S1100 100 1200 60 V130 H0Z' fill='%235ee7ff' fill-opacity='.10'/%3E%3Cpath d='M0 85 C200 50 400 120 600 85 S1000 50 1200 85 V130 H0Z' fill='%232fa8ec' fill-opacity='.14'/%3E%3C/svg%3E")
+    repeat-x 0 100% / 50% 100%;
+  animation: waves 18s linear infinite;
+  will-change: transform;
+}
+@keyframes bubbles { to { transform: translateY(-640px); } }
+@keyframes waves { to { transform: translateX(-50%); } }
+
+:root[data-contrast='high'] body::before,
+:root[data-contrast='high'] body::after { display: none; }
 
 h1, h2, h3 { font-family: var(--font-title); line-height: 1.1; margin: 0; }
 p { margin: 0; }
 img { display: block; max-width: 100%; }
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
+a { color: inherit; }
 
+/* Foco visível em fundo claro e escuro (anel âmbar + contorno escuro) */
 :focus-visible {
   outline: 4px solid var(--focus);
   outline-offset: 3px;
-  border-radius: 10px;
+  box-shadow: 0 0 0 3px var(--navy-deep);
+  border-radius: 12px;
 }
+
+/* Títulos recebem foco por código (troca de tela) só para leitores de tela: sem anel */
+[tabindex='-1']:focus { outline: none; box-shadow: none; }
+
+::selection { background: var(--aqua); color: var(--ink); }
 
 .sr-only {
   position: absolute !important;
@@ -36,26 +88,30 @@ button { cursor: pointer; }
 }
 
 .skip {
-  position: absolute; left: 8px; top: -60px; z-index: 100;
-  background: var(--navy); color: #fff; padding: 10px 16px; border-radius: 10px;
+  position: absolute; left: 8px; top: -80px; z-index: 100;
+  background: var(--white); color: var(--navy-deep); font-weight: 800;
+  padding: 12px 18px; border-radius: 12px; box-shadow: var(--shadow-lg);
 }
 .skip:focus { top: 8px; }
 
-#app { outline: none; }
+#app { outline: none; position: relative; z-index: 1; }
 
+/* Tela: o texto direto no fundo é claro; superfícies (components.css) voltam ao escuro */
 .screen {
+  --ink-soft: var(--on-bg-soft);
+  color: var(--on-bg);
   width: 100%;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 12px 16px calc(28px + env(safe-area-inset-bottom));
+  padding: 12px 16px calc(40px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  animation: enter 0.28s ease-out;
+  animation: enter 0.4s var(--ease);
 }
 
 @keyframes enter {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: none; }
 }
 
@@ -64,5 +120,7 @@ button { cursor: pointer; }
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
+  body::before, body::after { animation: none !important; }
 }

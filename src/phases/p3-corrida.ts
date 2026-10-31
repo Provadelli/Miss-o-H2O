@@ -170,7 +170,7 @@ export const p3: Phase = {
       function desenhar() {
         // Céu
         const g = ctx.createLinearGradient(0, 0, 0, H);
-        g.addColorStop(0, '#8fd3ff'); g.addColorStop(1, '#e6f6ff');
+        g.addColorStop(0, '#5cc2ff'); g.addColorStop(1, '#dff4ff');
         ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
         // Faixas (passarelas de madeira)
         FAIXAS.forEach((fy, i) => {
@@ -206,7 +206,7 @@ export const p3: Phase = {
         }
         // Sobreposições
         if (contagem > 0 || pausado) {
-          ctx.fillStyle = 'rgba(7,42,102,.55)'; ctx.fillRect(0, 0, W, H);
+          ctx.fillStyle = 'rgba(3,22,52,.62)'; ctx.fillRect(0, 0, W, H);
           ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
           ctx.font = 'bold 72px "Baloo 2", sans-serif';
           ctx.fillText(pausado ? 'Pausado' : String(Math.ceil(contagem)), W / 2, H / 2 + 10);
