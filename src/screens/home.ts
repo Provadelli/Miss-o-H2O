@@ -18,6 +18,9 @@ export function comoJogar(): void {
   ]);
 }
 
+/** Destaque visual (brilho pulsante) no botão principal. */
+const pulsar = (b: HTMLButtonElement): HTMLButtonElement => { b.classList.add('btn--pulse'); return b; };
+
 export const telaInicio: Screen = (root) => {
   const p = getPlayer();
   const emAndamento = p.nome && concluidas() > 0;
@@ -27,7 +30,7 @@ export const telaInicio: Screen = (root) => {
   root.append(h('main', { class: 'screen' },
     topbar('Missão H₂O', undefined, () =>
       'Missão H2O, uma aventura pela água dos alimentos. Toque em Jogar para começar. Veja o pódio com os melhores jogadores.'),
-    h('section', { class: 'row', style: 'justify-content:center;gap:16px;flex-wrap:nowrap' },
+    h('section', { class: 'row hero', style: 'justify-content:center;gap:16px;flex-wrap:nowrap' },
       mascote('mascot bounce'),
       h('div', { class: 'banner' },
         h('h1', null, 'Missão H₂O'),
@@ -41,7 +44,7 @@ export const telaInicio: Screen = (root) => {
               h('p', null, 'Olá, ', h('strong', null, p.nome), `! Você tem ${total()} pontos em ${concluidas()} de ${NUM_FASES} fases.`),
               btn('Continuar', () => ir('/fases'), { variant: 'primary', big: true, block: true, icon: 'bandeira' }),
               btn('Novo jogador', () => ir('/nome'), { block: true }))
-          : btn('Jogar', () => ir('/nome'), { variant: 'primary', big: true, block: true, icon: 'bandeira' }),
+          : pulsar(btn('Jogar', () => ir('/nome'), { variant: 'primary', big: true, block: true, icon: 'bandeira' })),
         btn('Como jogar', comoJogar, { block: true, icon: 'lampada' }),
         btn('Modo telão', () => ir('/podio'), { block: true, small: true, icon: 'trofeu' }),
         dica('Cerca de 20% da água que consumimos vem dos alimentos!', 'Você sabia?'),
